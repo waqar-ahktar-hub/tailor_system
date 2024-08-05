@@ -1,0 +1,603 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load get_product_from_key %}
+{% load get_dict_value %}
+{% block content %}
+<!-- begin:: Content -->
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+
+    <!--Begin::Dashboard 1-->
+
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-lg-18 col-xl-8 order-lg-3 order-xl-1">
+
+            <!--begin:: widgets/Activity-->
+            {% block acivity-widget %}
+            {% include 'widgets/activity.html' %}
+            {% endblock %}
+            <!--end:: widgets/Activity-->
+        </div>
+        <div class="col-xl-4 col-lg-6 order-lg-1 order-xl-2">
+
+            <!--begin:: Widgets/Tasks -->
+            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            Tasks with upcoming deadlines
+                        </h3>
+                    </div>
+                </div>
+                {% if not tasks %}
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h5 class="kt-portlet__head-title text-success">
+                            There are no pending tasks.
+                        </h5>
+                    </div>
+                </div>
+                {% else %}
+                <div class="kt-portlet__body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="kt_widget2_tab1_content">
+                            <div class="kt-widget2">
+                                {% for task in tasks %}
+                                <div class="kt-widget2__item kt-widget2__item--primary">
+                                    <div class="kt-widget2__checkbox">
+                                        <label class="kt-checkbox kt-checkbox--solid kt-checkbox--single">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                    <div class="kt-widget2__info">
+                                        <a href="{% url 'order:task_detail' task.id %}" class="kt-widget2__title">
+                                            {{ task.description }}
+                                        </a>
+                                        <a class="kt-widget2__username">
+                                            Assigned to <b>{{ task.employee.name }}</b> to be finished by
+                                            <b>{{ task.deadline }}</b>
+                                        </a>
+                                    </div>
+                                    <div class="kt-widget2__actions">
+                                        <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md"
+                                            data-toggle="dropdown">
+                                            <i class="flaticon-more-1"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
+                                            <ul class="kt-nav">
+                                                <li class="kt-nav__item">
+                                                    <a href="{% url 'employee:employee_detail' task.employee.id %}"
+                                                        class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon-user-settings"></i>
+                                                        <span class="kt-nav__link-text">Assigned To</span>
+                                                    </a>
+                                                </li>
+                                                <li class="kt-nav__item">
+                                                    <a href="{% url 'order:task_detail' task.id %}"
+                                                        class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon2-expand"></i>
+                                                        <span class="kt-nav__link-text">Task Detail</span>
+                                                    </a>
+                                                </li>
+                                                <li class="kt-nav__item">
+                                                    <a href="{% url 'order:order_detail' task.order.id %}"
+                                                        class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon-map"></i>
+                                                        <span class="kt-nav__link-text">Relative Order</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!--end:: Widgets/Tasks -->
+        </div>
+    </div>
+
+    <!--End::Row-->
+
+    <!--Begin::Row-->
+    <div class="row">
+        <div class="col-xl-8 col-lg-12 order-lg-3 order-xl-1">
+
+            <!--begin:: Widgets/Best Sellers-->
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            Best Selling Products of All Time
+                        </h3>
+                    </div>
+                    {% comment %} <div class="kt-portlet__head-toolbar">
+                        <ul class="nav nav-pills nav-pills-sm nav-pills-label nav-pills-bold" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#kt_widget5_tab1_content" role="tab">
+                                    Latest
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#kt_widget5_tab2_content" role="tab">
+                                    Month
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#kt_widget5_tab3_content" role="tab">
+                                    All time
+                                </a>
+                            </li>
+                        </ul>
+                    </div> {% endcomment %}
+                </div>
+
+                <div class="kt-portlet__body">
+                    <div class="tab-content">
+                        {% for p, s in product_stats.items %}
+                        {% get_product_from_key p as product %}
+                        {% if product_images %}
+                        {% get_dict_value product_images p as image%}
+                        {% endif %}
+                        <div class="tab-pane active" id="kt_widget5_tab1_content" aria-expanded="true">
+                            <div class="kt-widget5">
+                                <div class="kt-widget5__item">
+                                    <div class="kt-widget5__content">
+                                        <div class="kt-widget5__pic">
+                                            <img class="kt-widget7__img"
+                                                style="max-height:73.66px !important; min-width:8.5rem !important;"
+                                                {% if image and p != 0 %}src="{{ image.image1.url }}"
+                                                {% else %}src="{% static 'media/products/product27.jpg' %}" {% endif %}
+                                                alt="No image added yet.">
+                                        </div>
+                                        <div class="kt-widget5__section">
+                                            <a {% if p != 0 %}href="{% url 'product:product_detail' p %}" {% endif %}
+                                                class="kt-widget5__title">
+                                                {% if p != 0 %}
+                                                {{ product.title }}
+                                                {% else %}
+                                                Custom Products
+                                                {% endif %}
+                                            </a>
+                                            <p class="kt-widget5__desc">
+                                                {% if p != 0 %}
+                                                {{ product.description }}
+                                                {% else %}
+                                                User defined products.
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="kt-widget5__content">
+                                        <div class="kt-widget5__stats">
+                                            <span class="kt-widget5__number">{{ s }} </span>
+                                            <span class="kt-widget5__sales">sales</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!--end:: Widgets/Best Sellers-->
+        </div>
+        <div class="col-xl-4 col-lg-6 order-lg-3 order-xl-1">
+
+            <!--begin:: Widgets/New Users-->
+            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            Recently Added Clients
+                        </h3>
+                    </div>
+                </div>
+                {% if not clients %}
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h5 class="kt-portlet__head-title">
+                            No clients exists.
+                        </h5>
+                    </div>
+                </div>
+                {% else %}
+                <div class="kt-portlet__body">
+                    <div class="tab-content">
+                        {% for client in clients %}
+                        <div class="tab-pane active" id="kt_widget4_tab1_content">
+                            <div class="kt-widget4">
+                                <div class="kt-widget4__item">
+                                    <div class="kt-widget4__info">
+                                        <a href="{% url 'client:client_detail' client.id %}"
+                                            class="kt-widget4__username">
+                                            {{ client.name }}
+                                        </a>
+                                        <p class="kt-widget4__text">
+                                            Added on <b>{{ client.creation_date }}</b>
+                                        </p>
+                                    </div>
+                                    <a href="{% url 'order:order_add' client.id %}"
+                                        class="btn btn-sm btn-label-brand btn-bold">Add Order</a>
+                                </div>
+                            </div>
+                        </div>
+                        </br>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!--end:: Widgets/New Users-->
+        </div>
+        <div class="col-xl-4 col-lg-4 order-lg-2 order-xl-1">
+
+            <!--begin:: Widgets/Daily Sales-->
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-widget14">
+                    <div class="kt-widget14__header kt-margin-b-30">
+                        <h3 class="kt-widget14__title">
+                           Daily Sales
+                        </h3>
+                        <span class="kt-widget14__desc">
+                            Check out each collumn for more details
+                        </span>
+                    </div>
+                    <div class="kt-widget14__chart" style="height:120px;">
+                        <canvas id="kt_chart_daily_sales"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!--end:: Widgets/Daily Sales-->
+        </div>
+        <div class="col-xl-4 col-lg-4 order-lg-2 order-xl-1">
+
+            <!--begin:: Widgets/Profit Share-->
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-widget14">
+                    <div class="kt-widget14__header">
+                        <h3 class="kt-widget14__title">
+                            Order Types
+                        </h3>
+                        <span class="kt-widget14__desc">
+                            Custom and product based orders.
+                        </span>
+                    </div>
+                    <div class="kt-widget14__content">
+                        <div class="kt-widget14__chart">
+                            <div class="kt-widget14__stat">{% get_dict_value order_stats "total" %}</div>
+                            <canvas id="kt_chart_profit_share" style="height: 140px; width: 140px;"></canvas>
+                        </div>
+                        <div class="kt-widget14__legends">
+                            <div class="kt-widget14__legend">
+                                <span class="kt-widget14__bullet kt-bg-success"></span>
+                                <span class="kt-widget14__stats">{{ product_based_count_percentage }}% Product Based Orders</span>
+                            </div>
+                            <div class="kt-widget14__legend">
+                                <span class="kt-widget14__bullet kt-bg-brand"></span>
+                                <span class="kt-widget14__stats">{{ custom_orders_count_percentage }}% Custom Order</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--end:: Widgets/Profit Share-->
+        </div>
+        <div class="col-xl-4 col-lg-4 order-lg-2 order-xl-1">
+
+            <!--begin:: Widgets/Revenue Change-->
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-widget14">
+                    <div class="kt-widget14__header">
+                        <h3 class="kt-widget14__title">
+                            Tasks By Status
+                        </h3>
+                        <span class="kt-widget14__desc">
+                            Completed and pending tasks of pending orders.
+                        </span>
+                    </div>
+                    <div class="kt-widget14__content">
+                        <div class="kt-widget14__chart">
+                            <div id="kt_chart_revenue_change" style="height: 150px; width: 150px;"></div>
+                        </div>
+                        <div class="kt-widget14__legends">
+                            <div class="kt-widget14__legend">
+                                <span class="kt-widget14__bullet kt-bg-success"></span>
+                                <span class="kt-widget14__stats">{{ completed_task_percentage }}% Completed</span>
+                            </div>
+                            <div class="kt-widget14__legend">
+                                <span class="kt-widget14__bullet kt-bg-warning"></span>
+                                <span class="kt-widget14__stats">{{ pending_task_percentage }}% Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--end:: Widgets/Revenue Change-->
+        </div>
+    </div>
+
+    <!--End::Row-->
+
+    <!--End::Dashboard 1-->
+</div>
+
+<!-- end:: Content -->
+{% endblock %}
+
+{% block page-scripts %}
+<script>
+    // Daily Orders chart.
+    // Based on Chartjs plugin - http://www.chartjs.org/
+    var dailySales = function () {
+        var chartContainer = KTUtil.getByID('kt_chart_daily_sales');
+
+        if (!chartContainer) {
+            return;
+        }
+        var chartData = {
+            labels: {{order_dates|safe}},
+            datasets: [{
+                //label: 'Dataset 1',
+                backgroundColor: KTApp.getStateColor('success'),
+                data: {{order_count_against_dates|safe}}
+            }, {
+                //label: 'Dataset 2',
+                backgroundColor: '#f3f3fb',
+                data: {{order_count_against_dates|safe}}
+            }]
+        };
+
+        var chart = new Chart(chartContainer, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                title: {
+                    display: false,
+                },
+                tooltips: {
+                    intersect: false,
+                    mode: 'nearest',
+                    xPadding: 10,
+                    yPadding: 10,
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                        var value = data.datasets[0].data[tooltipItem.index];
+                        var label = data.labels[tooltipItem.index];
+
+                        if (value === 0.9) {
+            	            value = 0;
+                        }
+
+                        return 'New orders: ' + value;
+                     }
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                barRadius: 4,
+                scales: {
+                    xAxes: [{
+                        display: false,
+                        gridLines: false,
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        display: false,
+                        stacked: true,
+                        gridLines: false
+                    }]
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                }
+            }
+        });
+    }
+
+    // Profit Share Chart.
+    // Based on Chartjs plugin - http://www.chartjs.org/
+    var profitShare = function() {        
+        if (!KTUtil.getByID('kt_chart_profit_share')) {
+            return;
+        }
+
+        var randomScalingFactor = function() {
+            return Math.round(Math.random() * 100);
+        };
+
+        var config = {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [
+                        {{ product_based_count }}, {{ custom_orders_count}}
+                    ],
+                    backgroundColor: [
+                        KTApp.getStateColor('success'),
+                        KTApp.getStateColor('brand')
+                    ]
+                }],
+                labels: [
+                    'Product Based',
+                    'Custom Order',
+                ]
+            },
+            options: {
+                cutoutPercentage: 75,
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: false,
+                    position: 'top',
+                },
+                title: {
+                    display: false,
+                    text: 'Technology'
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                },
+                tooltips: {
+                    enabled: true,
+                    intersect: false,
+                    mode: 'nearest',
+                    bodySpacing: 5,
+                    yPadding: 10,
+                    xPadding: 10, 
+                    caretPadding: 0,
+                    displayColors: false,
+                    backgroundColor: KTApp.getStateColor('brand'),
+                    titleFontColor: '#ffffff', 
+                    cornerRadius: 4,
+                    footerSpacing: 0,
+                    titleSpacing: 0
+                }
+            }
+        };
+
+        var ctx = KTUtil.getByID('kt_chart_profit_share').getContext('2d');
+        var myDoughnut = new Chart(ctx, config);
+    }
+
+    // Task completion percentage chart.
+    // Based on Morris plugin - http://morrisjs.github.io/morris.js/
+    var revenueChange = function() {
+        if ($('#kt_chart_revenue_change').length == 0) {
+            return;
+        }
+
+        Morris.Donut({
+            element: 'kt_chart_revenue_change',
+            data: [{
+                    label: "Completed",
+                    value: {{ completed_tasks }}
+                },
+                {
+                    label: "Pending",
+                    value: {{ pending_tasks }}
+                }
+            ],
+            colors: [
+                KTApp.getStateColor('success'),
+                KTApp.getStateColor('danger')
+            ],
+        });
+    }
+
+
+    var activitiesChart = function() {
+        if ($('#kt_chart_activities').length == 0) {
+            return;
+        }
+
+        var ctx = document.getElementById("kt_chart_activities").getContext("2d");
+
+        var gradient = ctx.createLinearGradient(0, 0, 0, 240);
+        gradient.addColorStop(0, Chart.helpers.color('#e14c86').alpha(1).rgbString());
+        gradient.addColorStop(1, Chart.helpers.color('#e14c86').alpha(0.3).rgbString());
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: {{ month_names|safe }},//["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
+                datasets: [{
+                    label: "Sales Stats",
+                    backgroundColor: Chart.helpers.color('#e14c86').alpha(1).rgbString(),  //gradient
+                    borderColor: '#e13a58',
+
+                    pointBackgroundColor: Chart.helpers.color('#000000').alpha(0).rgbString(),
+                    pointBorderColor: Chart.helpers.color('#000000').alpha(0).rgbString(),
+                    pointHoverBackgroundColor: KTApp.getStateColor('light'),
+                    pointHoverBorderColor: Chart.helpers.color('#ffffff').alpha(0.1).rgbString(),
+
+                    //fill: 'start',
+                    data: {{ sales_each_month|safe }}//[10, 14, 12, 16, 9, 11, 13, 9, 13, 15]
+                }]
+            },
+            options: {
+                title: {
+                    display: false,
+                },
+                tooltips: {
+                    mode: 'nearest',
+                    intersect: false,
+                    position: 'nearest',
+                    xPadding: 10,
+                    yPadding: 10,
+                    caretPadding: 10
+                },
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    xAxes: [{
+                        display: false,
+                        gridLines: false,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: false,
+                        gridLines: false,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                elements: {
+                    line: {
+                        tension: 0.0000001
+                    },
+                    point: {
+                        radius: 4,
+                        borderWidth: 12
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 10,
+                        bottom: 0
+                    }
+                }
+            }
+        };
+
+        var chart = new Chart(ctx, config);
+    }
+
+</script>
+{% endblock %}

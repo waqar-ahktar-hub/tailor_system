@@ -1,0 +1,105 @@
+{% load static %}
+{% load get_page_group %}
+{% get_page_group title as group %}
+
+<!-- begin: Header Menu -->
+<button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
+<div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
+    <div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile ">
+        <ul class="kt-menu__nav ">
+            <li class="kt-menu__item  kt-menu__item--open {% if group == "DASHBOARD" %}kt-menu__item--here{% endif %} kt-menu__item--submenu kt-menu__item--rel kt-menu__item--open"
+                data-ktmenu-submenu-toggle="hover" aria-haspopup="true"><a
+                    href="{% url 'tailor_management_system:dashboard' %}" class="kt-menu__link"><span
+                        class="kt-menu__link-text">Dashboard</span><i
+                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
+            </li>
+            <li class="kt-menu__item  {% if group == "CLIENT" %}kt-menu__item--here{% endif %} kt-menu__item--submenu kt-menu__item--rel"
+                data-ktmenu-submenu-toggle="click" aria-haspopup="true"><a href="javascript:;"
+                    class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Clients</span><i
+                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover"
+                            aria-haspopup="true"><a href="{% url 'client:clients' %}" class="kt-menu__link"><i
+                                    class="kt-menu__link-icon flaticon2-list-3"></i><span
+                                    class="kt-menu__link-text">View Clients</span></a>
+                        </li>
+                        <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover"
+                            aria-haspopup="true"><a href="{% url 'client:client_add' %}" class="kt-menu__link"><i
+                                    class="kt-menu__link-icon flaticon-plus"></i><span class="kt-menu__link-text">Add
+                                    Client</span></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="kt-menu__item {% if group == "PRODUCT" %}kt-menu__item--here{% endif %} kt-menu__item--submenu kt-menu__item--rel"
+                data-ktmenu-submenu-toggle="click" aria-haspopup="true"><a href="javascript:;"
+                    class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Products</span><i
+                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover"
+                            aria-haspopup="true"><a href="{% url 'product:products' %}" class="kt-menu__link"><i
+                                    class="kt-menu__link-icon flaticon2-list-3"></i><span
+                                    class="kt-menu__link-text">View Products</span></a>
+                        </li>
+                        <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover"
+                            aria-haspopup="true"><a href="{% url 'product:product_add' %}" class="kt-menu__link"><i
+                                    class="kt-menu__link-icon flaticon-plus"></i><span class="kt-menu__link-text">Add
+                                    Products</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="kt-menu__item {% if group == "EMPLOYEE" %}kt-menu__item--here{% endif %} kt-menu__item--submenu kt-menu__item--rel"
+                data-ktmenu-submenu-toggle="click" aria-haspopup="true"><a href="javascript:;"
+                    class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Employees</span><i
+                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover"
+                            aria-haspopup="true"><a href="{% url 'employee:employees' %}" class="kt-menu__link"><i
+                                    class="kt-menu__link-icon flaticon2-list-3"></i><span
+                                    class="kt-menu__link-text">View Employee</span></a>
+                        </li>
+                        <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover"
+                            aria-haspopup="true"><a href="{% url 'employee:employee_add' %}" class="kt-menu__link"><i
+                                    class="kt-menu__link-icon flaticon-plus"></i><span class="kt-menu__link-text">Add
+                                    Employee</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="kt-menu__item {% if group == "ORDER" %}kt-menu__item--here{% endif %} kt-menu__item--submenu kt-menu__item--rel"
+                data-ktmenu-submenu-toggle="click" aria-haspopup="true"><a href="javascript:;"
+                    class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Orders</span><i
+                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover"
+                            aria-haspopup="true"><a href="{% url 'order:orders' %}" class="kt-menu__link"><i
+                                    class="kt-menu__link-icon flaticon2-list-3"></i><span
+                                    class="kt-menu__link-text">View Orders</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="kt-menu__item {% if group == "TASK" %}kt-menu__item--here{% endif %} kt-menu__item--submenu kt-menu__item--rel"
+                data-ktmenu-submenu-toggle="click" aria-haspopup="true"><a href="javascript:;"
+                    class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Tasks</span><i
+                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover"
+                            aria-haspopup="true"><a href="{% url 'order:tasks' %}" class="kt-menu__link"><i
+                                    class="kt-menu__link-icon flaticon2-list-3"></i><span
+                                    class="kt-menu__link-text">View Tasks</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- end: Header Menu -->

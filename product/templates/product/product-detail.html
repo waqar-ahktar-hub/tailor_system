@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% block content %}
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+    <div class="kt-portlet kt-portlet--mobile">
+        {% block add-images-button %}
+        {% include 'add-images-button.html' %}
+        {% endblock %}
+        <div class="kt-portlet overflow:auto">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                        {{ product.title }}'s Information
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Begin Product Info Column -->
+                <div class="col-lg-6">
+                    {% block product-info %}
+                    {% include 'product-info.html' %}
+                    {% endblock %}
+                </div>
+                <!-- End Product Info Column -->
+                <div class="col-lg-6">
+                <!-- Begin Images Column -->
+                {% block product-image-carsol %}
+                {% include 'product-image-carsol.html' %}
+                {% endblock %}
+                <!-- End Images Column -->
+            </div>
+
+            </br>
+
+        </div>
+    </div>
+
+    <!-- end:: Content -->
+    {% endblock %}
+
+    {% block page-scripts %}
+    <script src="{% static 'js/pages/crud/metronic-datatable/base/html-table.js' %}" type="text/javascript"></script>
+    {% endblock %}

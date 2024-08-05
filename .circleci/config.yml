@@ -1,0 +1,25 @@
+version: 2
+
+jobs:
+
+  build:
+
+    working_directory: ~/tms
+
+    docker:
+
+      - image: circleci/python:3.6.8
+
+    steps:
+
+      - checkout
+
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+
+      - run: make requirements
+
+      - run: make test-quality
+
+      - run: tox -e py36

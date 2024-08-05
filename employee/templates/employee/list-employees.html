@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load clean_title %}
+{% load get_dict_value %}
+{% block content %}
+<!-- begin:: Content -->
+{% for employee in employees %}
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+
+    {% get_dict_value employee_with_no_of_tasks employee.id as task_tuple %}
+    <!--begin:: Portlet-->
+    <div class="kt-portlet">
+        <div class="kt-portlet__body">
+            <div class="kt-widget kt-widget--user-profile-3">
+                <div class="kt-widget__top">
+                    <div class="kt-widget__content">
+                        <div class="kt-widget__head">
+                            <a href="{% url 'employee:employee_detail' employee.id %}" class="kt-widget__username">
+                                {{ employee.name }}
+                            </a>
+                            <div class="kt-widget__action">
+                                <a href="{% url 'employee:employee_detail' employee.id %}"
+                                    class="btn btn-label-success btn-sm btn-upper">Employee Details</a>&nbsp;
+                            </div>
+                        </div>
+                        <div class="kt-widget__subhead">
+                            <a><i class="flaticon2-calendar-3"></i>{{ employee.gender }} </a>
+                            <a><i class="flaticon2-phone"></i>{{ employee.phone_number }}</a>
+                        </div>
+                        <div class="kt-widget__info">
+                            <div class="kt-widget__desc">
+                                Address: {{ employee.address  }}
+                            </div>
+                            <div class="kt-widget__progress">
+                                <div class="kt-widget__text">
+                                    Progress
+                                </div>
+                                {% if not task_tuple.0 == 0 %}
+                                <div class="progress" style="height: 5px;width: 100%;">
+                                    <div class="progress-bar kt-bg-success" role="progressbar"
+                                        style="width: {{ task_tuple.2 }}%;" aria-valuenow="{{ task_tuple.2 }}"
+                                        aria-valuemin="0" aria-valuemax="{{ task_tuple.0 }}"></div>
+                                </div>
+                                <div class="kt-widget__stats">
+                                    {{ task_tuple.2 }}%
+                                </div>
+                                {% else %}
+                                <span>No tasks are assigned to this employee yet!</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-widget__bottom" style="margin-left: 2% !important;">
+                    <div class="kt-widget__item">
+                        <div class="kt-widget__icon">
+                            <i class="flaticon-list"></i>
+                        </div>
+                        <div class="kt-widget__details">
+                            <span class="kt-widget__title">{{ task_tuple.0 }} Tasks Assigned</span>
+                        </div>
+                    </div>
+                    <div class="kt-widget__item">
+                        <div class="kt-widget__icon">
+                            <i class="flaticon-clock-2"></i>
+                        </div>
+                        <div class="kt-widget__details">
+                            <span class="kt-widget__title">{{ task_tuple.1 }} Tasks Pending</span>
+                        </div>
+                    </div>
+                    <div class="kt-widget__item">
+                        <div class="kt-widget__icon">
+                            <i class="flaticon2-check-mark"></i>
+                        </div>
+                        <div class="kt-widget__details">
+                            <span class="kt-widget__title">{{ task_tuple.3 }} Tasks Completed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end:: Portlet-->
+</div>
+{% endfor %}
+<!-- end:: Content -->
+{% endblock %}
+
+{% block page-scripts %}
+<script>
+    function delOnClick(ref) {
+        var url = "{% url 'employee:employee_delete' %}"
+        var id = $(ref).attr("id")
+        var intId = parseInt(id)
+        var data = { id: intId, csrfmiddlewaretoken: '{{ csrf_token }}', contentType: 'application/json' }
+        $.post(url, data, function (data, status) {
+            location.reload(true)
+        })
+    }
+</script>
+{% endblock %}

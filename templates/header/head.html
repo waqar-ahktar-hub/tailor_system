@@ -1,0 +1,40 @@
+{% load static %}
+{% load clean_title %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <base href="../">
+    <meta charset="utf-8" />
+    <title>TMS | {% clean_title title %}</title>
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--begin::Fonts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Asap+Condensed:500">
+
+    <!--end::Fonts -->
+    		<!--begin::Page Custom Styles(used by this page) -->
+    <link href="{% static 'css/pages/wizard/wizard-2.css' %}" rel="stylesheet" type="text/css" />
+    <!--begin::Page Vendors Styles(used by this page) -->
+    <link href="{% static 'plugins/custom/fullcalendar/fullcalendar.bundle.css' %}" rel="stylesheet" type="text/css" />
+
+    <!--end::Page Vendors Styles -->
+
+    <!--begin::Global Theme Styles(used by all pages) -->
+    <link href="{% static 'plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/style.bundle.css' %}" rel="stylesheet" type="text/css" />
+
+    <!--end::Global Theme Styles -->
+
+    <!--begin::Layout Skins(used by all pages) -->
+
+    <!--end::Layout Skins -->
+    <link rel="shortcut icon" href="{% static 'media/logos/favicon.ico' %}" />
+
+
+</head>

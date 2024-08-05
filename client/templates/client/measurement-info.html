@@ -1,0 +1,185 @@
+{% if measurements_exist %}
+<p class="h5 text-dark" style='font-size:1.2rem, color=#48465b'>&emsp; {{ client.name }}'s Measurements</p>
+<div class="row text-center mt-3">
+    <div class="col-sm-12">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td align="right">
+                        <p><b>Shoulder: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.shoulder }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Armscye: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.armscye }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Chest: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.chest }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Bust: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.bust }}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right">
+                        <p><b>Waist: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.waist }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Arm Length: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.arm_length }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Hips: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.hips }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Ankle: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.ankle }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Neck: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.neck }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Back Width: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.back_width }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Inseam: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.inseam }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Wrist: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.wrist }}</p>
+                    </td>
+                </tr>
+                {% if is_male %}
+                <tr>
+                    <td align="right">
+                        <p><b>Crutch Depth: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.crutch_depth }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Waist To Knee: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.waist_to_knee }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Knee Line: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.knee_line }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Biceps: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.biceps }}</p>
+                    </td>
+                </tr>
+                {% endif %}
+                {% if not is_male %}
+                <tr>
+                    <td align="right">
+                        <p><b>Front Shoulder To Waist: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.front_sh_to_waist }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Crutch Depth: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.crutch_depth }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Waist To Knee: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.waist_to_knee }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Waist To Hip: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.waist_to_hip }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Top Arm: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.top_arm }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Knee Line: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.knee_line }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Body Rise: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.body_rise }}</p>
+                    </td>
+                    <td align="right">
+                        <p><b>Waist To Floor: </b></p>
+                    </td>
+                    <td>
+                        <p>{{ measurements.waist_to_floor }}</p>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <a href="{% url 'client:measurment_update' client.id %}"> <Button class="btn btn-primary">Update</Button></a>
+    </div>
+</div>
+{% endif %}

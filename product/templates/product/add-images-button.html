@@ -1,0 +1,39 @@
+{% if not product_images %}
+<div class="kt-portlet__head kt-portlet__head--lg">
+    <div class="kt-portlet__head-label">
+        <span class="kt-portlet__head-icon">
+        </span>
+    </div>
+    <div class="kt-portlet__head-toolbar">
+        <div class="kt-portlet__head-wrapper">
+            <div class="kt-portlet__head-actions">
+                &nbsp;
+                <a href="{% url 'product:product_images_add' product.id %}" class="btn btn-brand btn-elevate btn-icon-sm">
+                    <i class="la la-plus"></i>
+                    Add Images
+                </a>
+                &nbsp;
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="kt-portlet__head kt-portlet__head--lg">
+    <div class="kt-portlet__head-label">
+        <span class="kt-portlet__head-icon">
+        </span>
+    </div>
+    <div class="kt-portlet__head-toolbar">
+        <div class="kt-portlet__head-wrapper">
+            <div class="kt-portlet__head-actions">
+                &nbsp;
+                <a href="{% url 'product:product_images_update' product.id %}" class="btn btn-brand btn-elevate btn-icon-sm">
+                    <i class="la la-plus"></i>
+                    Update Images
+                </a>
+                &nbsp;
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

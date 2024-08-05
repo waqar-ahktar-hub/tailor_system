@@ -1,0 +1,57 @@
+<div class="row text-center mt-3">
+    <div class="col-sm-12">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td align=right><b>Client</b></td>
+                    <td align=left><a href="{% url 'client:client_detail' order.client.id %}">{{ order.client.name }}</a></td>
+                </tr>
+                <tr>
+                    <td align=right><b>Order Status</b></td>
+                    <td align=left>{{ order.status }}</td>
+                </tr>
+                <tr>
+                    <td align=right><b>Payment Status</b></td>
+                    <td align=left>{{ order.payment_status }}</td>
+                </tr>
+                <tr>
+                    <td align=right><b>Payment Amount</b></td>
+                    <td align=left>{{ order.payment_amount }}</td>
+                </tr>
+                <tr>
+                    <td align=right><b>Advance Payment</b></td>
+                    <td align=left>{{ order.advance_payment_amount }}</td>
+                </tr>
+                <tr>
+                    <td align=right><b>Delivery Date</b></td>
+                    <td align=left>{{ order.delivery_date }}</td>
+                </tr>
+                <tr>
+                    <td align=right><b>Recieval Date</b></td>
+                    <td align=left>{{ order.date_recieved }}</td>
+                </tr>
+                <tr>
+                    <td align=right><b>Order</b></td>
+                    <td align=left>{{ order.order }}</td>
+                </tr>
+                <tr>
+                    <td align=right><b>Order Instructions</b></td>
+                    <td align=left>{{ order.instructions }}</td>
+                </tr>
+                {% if order.product %}
+                <tr>
+                    <td align=right><b>Order Product</b></td>
+                    <td align=left>{{ order.product }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td align=right><b>Order Product</b></td>
+                    <td align=left>Custom</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <a href="{% url 'order:order_update' order.id %}" class="text-center btn-outline-primary"> <Button
+                class="btn btn-primary">Update</Button></a>
+    </div>
+</div>

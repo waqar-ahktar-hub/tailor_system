@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- begin:: Content -->
+
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+    <div class="kt-portlet">
+        <div class="kt-portlet__body kt-portlet__body--fit">
+            <div class="kt-grid  kt-wizard-v2 kt-wizard-v2--white" id="kt_wizard_v2" data-ktwizard-state="step-first">
+                <div class="kt-grid__item kt-wizard-v2__aside">
+
+                    <!--begin: Form Wizard Nav -->
+                    <div class="kt-wizard-v2__nav">
+                        <div class="kt-wizard-v2__nav-items kt-wizard-v2__nav-items--clickable">
+
+                            <!--doc: Replace A tag with SPAN tag to disable the step link click -->
+                            <div class="kt-wizard-v2__nav-item" data-ktwizard-type="step">
+                                <div class="kt-wizard-v2__nav-body">
+                                    <div class="kt-wizard-v2__nav-icon">
+                                        <i class="flaticon-user"></i>
+                                    </div>
+                                    <div class="kt-wizard-v2__nav-label">
+                                        <div class="kt-wizard-v2__nav-label-title">
+                                            Client Information
+                                        </div>
+                                        <div class="kt-wizard-v2__nav-label-desc">
+                                            Setup Your Client Details
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kt-wizard-v2__nav-item" data-ktwizard-type="step" data-ktwizard-state="current">
+                                <div class="kt-wizard-v2__nav-body">
+                                    <div class="kt-wizard-v2__nav-icon">
+                                        <i class="flaticon2-console"></i>
+                                    </div>
+                                    <div class="kt-wizard-v2__nav-label">
+                                        <div class="kt-wizard-v2__nav-label-title">
+                                            Add Measurements
+                                        </div>
+                                        <div class="kt-wizard-v2__nav-label-desc">
+                                            Add measurements for your client.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--end: Form Wizard Nav -->
+                </div>
+                <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v2__wrapper">
+
+                    <!--begin: Form Wizard Form-->
+                    <form class="kt-form" {% if func == "Add" %}action="{% url 'client:measurment_add' client.id %}"
+                        {% else %}action="{% url 'client:measurment_update' client.id %}" {% endif %} method="post">
+                        <!--begin: Form Wizard Step 1-->
+                        <div class="kt-wizard-v2__content" data-ktwizard-type="step-content"
+                            data-ktwizard-state="current"
+                            style="padding-bottom:0em !important; margin-bottom:0em !important; border-bottom:0px !important;">
+                            <div class="kt-heading kt-heading--md">Enter your Account Details</div>
+                            <div class="kt-form__section kt-form__section--first">
+                                <div class="kt-wizard-v2__form">
+                                    {% csrf_token %}
+                                    {{ form.unit|as_crispy_field }}
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.shoulder|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.armscye|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.chest|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.bust|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.waist|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.arm_length|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.hips|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.ankle|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.neck|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.back_width|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.inseam|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-4 mb-0">
+                                            {{ form.wrist|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.crutch_depth|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.waist_to_knee|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.knee_line|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.biceps|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: Form Wizard Step 1-->
+
+                        <!--begin: Form Actions -->
+
+                        <div class="kt-form__actions float-right">
+                            <a href="{% url 'client:clients' %}" class="btn btn-default">Skip</a>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                        <!--end: Form Actions -->
+                    </form>
+
+                    <!--end: Form Wizard Form-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end:: Content -->
+{% endblock %}

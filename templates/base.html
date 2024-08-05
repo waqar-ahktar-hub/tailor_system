@@ -1,0 +1,52 @@
+{% load static %}
+{% block head %}
+{% include 'header/head.html' %}
+{% endblock %}
+
+<body
+    class="kt-page-content-white kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading">
+
+    <div class="kt-grid kt-grid--hor kt-grid--root">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper " id="kt_wrapper">
+                {% block header %}
+                {% include 'header/header.html' %}
+                {% endblock %}
+
+                <div class="kt-container  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-grid--stretch">
+                    <div class="kt-body kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-grid--stretch"
+                        id="kt_body">
+                        <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor"
+                            id="kt_content">
+                            {% block content-head %}
+                            {% include 'content-head.html' %}
+                            {% endblock %}
+
+                            {% block content %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+                {% block footer %}
+                {% include 'footer.html' %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    {% block quick-panel %}
+    {% include 'quick-panel.html' %}
+    {% endblock %}
+
+    {% block utils %}
+    {% include 'utils.html' %}
+    {% endblock %}
+
+    {% block scripts %}
+    {% include 'scripts.html' %}
+    {% endblock %}
+
+    {% block page-scripts %}
+    {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load get_status %}
+{% load static %}
+{% block content %}
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+    <!--Begin::App-->
+    <div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
+
+        <!--Begin:: App Aside Mobile Toggle-->
+        <button class="kt-app__aside-close" id="kt_user_profile_aside_close">
+            <i class="la la-close"></i>
+        </button>
+
+        <!--End:: App Aside Mobile Toggle-->
+
+        <!--Begin:: App Aside-->
+        <div class="kt-grid__item kt-app__toggle kt-app__aside" id="kt_user_profile_aside">
+
+            <!--Begin::Portlet-->
+            <div class="kt-portlet kt-portlet--height-fluid-">
+                <div class="kt-portlet__head kt-portlet__head--noborder">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                        </h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+                        <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
+                            <i class="flaticon-more-1"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="kt-nav">
+                                <li class="kt-nav__item">
+                                    <a href="{% url 'employee:employee_update' employee.id %}" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-pen"></i>
+                                        <span class="kt-nav__link-text">Edit</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+
+                    <!--begin::Widget -->
+                    <div class="kt-widget kt-widget--user-profile-2">
+                        <div class="kt-widget__head">
+                            <div class="kt-widget__info" style="padding-left: 0em !important;">
+                                <a class="kt-widget__username">
+                                    {{ employee.name }}
+                                </a>
+                            </div>
+                        </div>
+                        </br>
+                        <div class="kt-widget__body">
+                            <div class="kt-widget__item">
+                                <div class="kt-widget__contact">
+                                    <span class="kt-widget__label">Name:</span>
+                                    <a class="kt-widget__data">{{ employee.name }}</a>
+                                </div>
+                                <div class="kt-widget__contact">
+                                    <span class="kt-widget__label">Phone:</span>
+                                    <a class="kt-widget__data">{{ employee.phone_number }}</a>
+                                </div>
+                                <div class="kt-widget__contact">
+                                    <span class="kt-widget__label">Gender:</span>
+                                    <a class="kt-widget__data">{{ employee.gender }}</a>
+                                </div>
+                                <div class="kt-widget__contact">
+                                    <span class="kt-widget__label">Joining Date:</span>
+                                    <a class="kt-widget__data">{{ employee.joining_date }}</a>
+                                </div>
+                                <div class="kt-widget__contact">
+                                    <span class="kt-widget__label">Address:</span>
+                                    <span class="kt-widget__data">{{ employee.address }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--end::Widget -->
+
+                </div>
+            </div>
+
+            <!--End::Portlet-->
+
+        </div>
+
+        <!--End:: App Aside-->
+
+        <!--Begin:: App Content-->
+        <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
+            <div class="row">
+                <div class="col-xl-12">
+
+                    <!--begin:: Widgets/Finance Summary-->
+                    <div class="kt-portlet kt-portlet--height-fluid">
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Tasks
+                                </h3>
+                            </div>
+                        </div>
+                        {% if tasks %}
+                        {% for task in tasks %}
+                        <div class="kt-portlet__body">
+                            <div class="kt-widget12">
+                                <div class="kt-portlet__head-toolbar" style="margin-left: 90% !important;">
+                                    <a href="#" class="btn btn-label-brand btn-sm  btn-bold dropdown-toggle"
+                                        data-toggle="dropdown">
+                                        More
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-fit dropdown-menu-md">
+
+                                        <!--begin::Nav-->
+                                        <ul class="kt-nav">
+                                            <li class="kt-nav__head">
+                                                Task Options
+                                            </li>
+                                            <li class="kt-nav__separator"></li>
+                                            <li class="kt-nav__item">
+                                                <a href="{% url 'order:task_detail' task.id %}" class="kt-nav__link">
+                                                    <i class="kt-nav__link-icon flaticon2-expand"></i>
+                                                    <span class="kt-nav__link-text">Details</span>
+                                                </a>
+                                            </li>
+                                            <li class="kt-nav__item">
+                                                <a href="{% url 'order:task_update' task.id %}" class="kt-nav__link">
+                                                    <i class="kt-nav__link-icon flaticon2-pen"></i>
+                                                    <span class="kt-nav__link-text">Update</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <!--end::Nav-->
+                                    </div>
+                                </div>
+                                <div class="kt-widget12__content">
+                                    <div class="kt-widget12__item">
+                                        <div class="kt-widget12__info">
+                                            <span class="kt-widget12__desc">Order#</span>
+                                            <a href="{% url 'order:order_detail' task.order.id %}"><span
+                                                    class="kt-widget12__value">{{ task.order.id }}</span></a>
+                                        </div>
+                                        <div class="kt-widget12__info">
+                                            <span class="kt-widget12__desc">Task Status</span>
+                                            <span class="kt-widget12__value">{% get_status "TASK" task.status %}</span>
+                                        </div>
+                                    </div>
+                                    <div class="kt-widget12__item">
+                                        <div class="kt-widget12__info">
+                                            <span class="kt-widget12__desc">Task#</span>
+                                            <a href="{% url 'order:task_detail' task.id %}"><span
+                                                    class="kt-widget12__value">{{ task.id }}</span></a>
+                                        </div>
+                                        <div class="kt-widget12__info">
+                                            <span class="kt-widget12__desc">Deadline</span>
+                                            <span class="kt-widget12__value">{{ task.deadline }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="kt-widget12__item">
+                                        <div class="kt-widget12__info">
+                                            <span class="kt-widget12__desc">Description</span>
+                                            <span class="kt-widget12__value">{{ task.description }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p class="h5 text-primary text-center" style="margin-right: 46% !important;">You haven't
+                            assigned any tasks to this employee yet.</p>
+                        {% endif %}
+                    </div>
+
+                    <!--end:: Widgets/Finance Summary-->
+                </div>
+            </div>
+        </div>
+
+
+        <!--End:: App Content-->
+    </div>
+</div>
+<!-- end:: Content -->
+{% endblock %}

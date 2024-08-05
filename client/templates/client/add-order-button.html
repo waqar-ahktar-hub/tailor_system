@@ -1,0 +1,29 @@
+<div class="kt-portlet__head kt-portlet__head--lg text-right">
+    <div class="kt-portlet__head-label">
+        <span class="kt-portlet__head-icon">
+        </span>
+    </div>
+    <div class="kt-portlet__head-toolbar">
+        <div class="kt-portlet__head-wrapper">
+            <div class="kt-portlet__head-actions">
+                &nbsp;
+                {% if not measurements_exist %}
+                <a href="{% url 'client:measurment_add' client.id %}" class="btn btn-brand btn-elevate btn-icon-sm">
+                    <i class="la la-plus"></i>
+                    Add Measurements
+                </a>
+                {% else %}
+                <a href="{% url 'client:measurment_update' client.id %}" class="btn btn-brand btn-elevate btn-icon-sm">
+                    <i class="la la-plus"></i>
+                    Update Measurements
+                </a>
+                {% endif %}
+                &nbsp;
+                <a href="{% url 'order:order_add' client.id %}" class="btn btn-brand btn-elevate btn-icon-sm">
+                    <i class="la la-plus"></i>
+                    Add Orders
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

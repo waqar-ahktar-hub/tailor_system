@@ -1,0 +1,50 @@
+<div class="row text-center mt-3">
+    <div class="col-sm-12">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td align="right">
+                        <p><b>Name: </b></p>
+                    </td>
+                    <td align=left>
+                        <p>{{ employee.name }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Phone: </b></p>
+                    </td>
+                    <td align=left>
+                        <p>{{ employee.phone_number }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Gender: </b></p>
+                    </td>
+                    <td align=left>
+                        <p>{{ employee.gender }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Joining Date: </b></p>
+                    </td>
+                    <td align=left>
+                        <p>{{ employee.joining_date }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <p><b>Address: </b></p>
+                    </td>
+                    <td align=left>
+                        <p>{{ employee.address }}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="{% url 'employee:employee_update' employee.id %}" class="text-center btn-outline-primary"> <Button
+                class="btn btn-primary">Update</Button></a>
+    </div>
+</div>

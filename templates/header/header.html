@@ -1,0 +1,41 @@
+{% load static %}
+{% block header-mobile %}
+{% include 'header/header-mobile.html' %}
+{% endblock %}
+<!-- begin:: Header -->
+<div id="kt_header" class="kt-header kt-grid__item  kt-header--fixed " data-ktheader-minimize="on">
+    <div class="kt-header__top">
+        <div class="kt-container  kt-container--fluid ">
+
+            <!-- begin:: Brand -->
+            <div class="kt-header__brand   kt-grid__item" id="kt_header_brand">
+                <div class="kt-header__brand-logo">
+                    <a href="{% url 'tailor_management_system:dashboard' %}">
+                        <img alt="Logo" src="{% static 'media/logos/logo-10.png' %}"
+                            class="kt-header__brand-logo-default" />
+                    </a>
+                </div>
+            </div>
+
+            <!-- end:: Brand -->
+            {% block header-topbar %}
+            {% include 'header/header-topbar.html' %}
+            {% endblock %}
+        </div>
+    </div>
+    <div class="kt-header__bottom">
+        <div class="kt-container ">
+
+            <!-- begin: Header Menu -->
+            <button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i
+                    class="la la-close"></i></button>
+            {% block header-menu %}
+            {% include 'header/header-menu.html' %}
+            {% endblock %}
+
+            <!-- end: Header Menu -->
+        </div>
+    </div>
+</div>
+
+<!-- end:: Header -->

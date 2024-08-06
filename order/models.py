@@ -39,7 +39,8 @@ class Order(models.Model):
             self.delivery_date,
             self.client.name
         )
-
+    def is_payment_pending(self):
+        return not self.payment_status
 
 class Task(models.Model):
     """Task Model."""

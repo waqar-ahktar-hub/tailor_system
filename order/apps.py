@@ -7,3 +7,6 @@ class OrderConfig(AppConfig):
     """Config class for order management application."""
 
     name = 'order'
+    
+    def ready(self):
+        import order.signals

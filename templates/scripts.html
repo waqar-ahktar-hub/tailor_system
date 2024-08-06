@@ -1,5 +1,6 @@
 {% load static %}
-<!-- begin::Global Config(global config for global JS sciprts) -->
+
+<!-- begin::Global Config(global config for global JS scripts) -->
 <script>
     var KTAppOptions = {
         "colors": {
@@ -20,23 +21,125 @@
         }
     };
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function getCSRFToken() {
+            return $("meta[name='csrf-token']").attr("content");
+        }
 
-<!-- end::Global Config -->
+        function loadNotifications() {
+            $.ajax({
+                url: '{% url "fetch_notifications" %}',
+                method: 'GET',
+                success: function(data) {
+                    var notifications = data.notifications;
+                    var notificationHtml = '';
+                    var newCount = notifications.filter(notification => !notification.is_read).length;
+
+                    if (newCount > 0) {
+                        $('#notification-badge').text(newCount).removeClass('kt-hidden');
+                        $('#new-notifications-count').text(newCount + ' new');
+                        $('#notification-icon').addClass('kt-font-danger');
+                    } else {
+                        $('#notification-badge').addClass('kt-hidden');
+                        $('#new-notifications-count').text('No new notifications');
+                        $('#notification-icon').removeClass('kt-font-danger');
+                    }
+
+                    $.each(notifications, function(index, notification) {
+                        notificationHtml += '<a href="#" class="kt-notification__item" data-id="' + notification.id + '" data-url="' + notification.target_url + '" onclick="markAsChecked(event, ' + notification.id + ', \'' + notification.target_url + '\')">';
+                        notificationHtml += '    <div class="kt-notification__item-icon">';
+                        notificationHtml += '        <i class="flaticon2-bell-alarm-symbol kt-font-success"></i>';
+                        notificationHtml += '    </div>';
+                        notificationHtml += '    <div class="kt-notification__item-details">';
+                        notificationHtml += '        <div class="kt-notification__item-title">' + notification.title + '</div>';
+                        notificationHtml += '        <div class="kt-notification__item-time">' + timeAgo(notification.timestamp) + '</div>';
+                        notificationHtml += '    </div>';
+                        notificationHtml += '</a>';
+                    });
+
+                    if (notifications.length === 0) {
+                        notificationHtml = '<a href="#" class="kt-notification__item"><div class="kt-notification__item-details"><div class="kt-notification__item-title">No new notifications.</div></div></a>';
+                    }
+
+                    $('.kt-notification').html(notificationHtml);
+                },
+                error: function() {
+                    console.log('Error fetching notifications.');
+                }
+            });
+        }
+
+        function timeAgo(timestamp) {
+            var now = new Date();
+            var then = new Date(timestamp);
+            var diff = Math.floor((now - then) / 1000);
+
+            var intervals = [
+                { name: 'second', seconds: 60 },
+                { name: 'minute', seconds: 3600 },
+                { name: 'hour', seconds: 86400 },
+                { name: 'day', seconds: 604800 },
+                { name: 'week', seconds: 2419200 }
+            ];
+
+            for (var i = intervals.length - 1; i >= 0; i--) {
+                var interval = intervals[i];
+                if (diff >= interval.seconds) {
+                    var count = Math.floor(diff / interval.seconds);
+                    return count + ' ' + interval.name + (count > 1 ? 's' : '') + ' ago';
+                }
+            }
+            return 'just now';
+        }
+
+        window.markAsChecked = function(event, notificationId, targetUrl) {
+            event.preventDefault();
+            $.ajax({
+                url: '{% url "mark_as_checked" 0 %}'.replace('0', notificationId),
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                },
+                success: function(data) {
+                    if (data.status === 'success') {
+                        $('#notification-badge').text(data.unread_count);
+                        if (data.unread_count === 0) {
+                            $('#notification-badge').addClass('kt-hidden');
+                            $('#notification-icon').removeClass('kt-font-danger');
+                        }
+                        window.location.href = targetUrl;
+                    }
+                },
+                error: function() {
+                    console.log('Error marking notification as checked.');
+                }
+            });
+        }
+
+        loadNotifications();  // Initial load
+        setInterval(loadNotifications, 60000);  // Refresh notifications every minute
+    });
+</script>
+
+<!--end::Global Config -->
 
 <!--begin::Global Theme Bundle(used by all pages) -->
 <script src="{% static 'plugins/global/plugins.bundle.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/scripts.bundle.js' %}" type="text/javascript"></script>
-
 <!--end::Global Theme Bundle -->
+<!-- Include jQuery for simplicity -->
+
+
+<!-- Include jQuery -->
 
 <!--begin::Page Vendors(used by this page) -->
 <script src="{% static 'plugins/custom/fullcalendar/fullcalendar.bundle.js' %}" type="text/javascript"></script>
 <script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM" type="text/javascript"></script>
 <script src="{% static 'plugins/custom/gmaps/gmaps.js' %}" type="text/javascript"></script>
-
 <!--end::Page Vendors -->
 
 <!--begin::Page Scripts(used by this page) -->
 <script src="{% static 'js/pages/dashboard.js' %}" type="text/javascript"></script>
-
 <!--end::Page Scripts -->

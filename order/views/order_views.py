@@ -8,6 +8,18 @@ from client.models import Client
 from order.forms import OrderForm
 from order.models import Order, Task
 
+def header_top_view(request):
+    pending_orders = Order.objects.filter(payment_status=False)
+    pending_count = pending_orders.count()
+    # Include any other data you need for the header
+    return render(request, 'header/header-topbar.html', {'pending_count': pending_count})
+
+def orders_with_pending_payments(request):
+    pending_orders = Order.objects.filter(payment_status=False)
+    pending_count = pending_orders.count()
+    return render(request, 'order/pending_orders.html', {'pending_orders': pending_orders, 'pending_count': pending_count})
+
+
 
 class OrderListView(LoginRequiredMixin, View):
     """Class based view for Order for listing all the orders."""

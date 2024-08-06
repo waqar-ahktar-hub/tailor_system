@@ -37456,3 +37456,6 @@ body {
         .kt-footer .kt-footer__wrapper .kt-footer__menu a:first-child {
           padding-left: 0;
           margin-left: 0; } }
+.kt-font-danger {
+    color: red; /* Or use your specific red color */
+}

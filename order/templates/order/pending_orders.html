@@ -1,0 +1,32 @@
+<!-- templates/pending_orders.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% load clean_title %}
+{% load get_status %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Pending Payments</h2>
+        <div class="list-group">
+            {% for order in pending_orders %}
+                <a href="{% url 'order:order_detail' order.id %}" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Order ID: {{ order.id }}</h5>
+                        <small>{{ order.date_recieved|date:"F j, Y" }}</small>
+                    </div>
+                    <p class="mb-1">{{ order.client.name }}</p>
+                    <small class="text-danger">Pending Payment: {{ order.payment_amount|floatformat:2 }}</small>
+                </a>
+            {% empty %}
+                <div class="list-group-item">
+                    <p class="mb-1">No pending payments.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block page-scripts %}
+    <script src="{% static 'js/pages/crud/metronic-datatable/base/html-table.js' %}" type="text/javascript"></script>
+    {% endblock %}

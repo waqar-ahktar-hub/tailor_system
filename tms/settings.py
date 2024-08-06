@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'crispy_forms',
     'crispy_bootstrap4',
+    'chat',
+    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -171,3 +173,25 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 django_heroku.settings(locals())
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# settings.py
+import os
+
+# Add your OpenAI API key here
+
+
+
+
+# settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}

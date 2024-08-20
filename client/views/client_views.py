@@ -4,12 +4,33 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework.views import View
-
+from django.views.generic import CreateView
 from client.forms import ClientForm
 from client.models import Client, FemaleMeasurements, MaleMeasurements
 from client.utils import get_measurements
 from order.models import Order, Task
+from django.urls import reverse_lazy,reverse
+from django.views import View
 
+# views.py
+from django.contrib.auth.decorators import login_required
+@login_required
+def client_dashboard(request):
+    return render(request, 'client/dashboard.html')
+
+
+
+
+class ClientDashboardView(LoginRequiredMixin, View):
+    """Client Dashboard view."""
+
+    def get(self, request):
+        """Render the client dashboard."""
+        client = request.user
+        context = {
+            'client': client
+        }
+        return render(request, 'client/dashboard.html', context)
 
 class ClientListView(LoginRequiredMixin, View):
     """Class based view for Client for listing all the clients."""
@@ -18,7 +39,7 @@ class ClientListView(LoginRequiredMixin, View):
         """Render client list tempalte.."""
         clients = Client.objects.all()
         context = {
-            'clients': clients.order_by('name'),
+            'clients': clients.order_by('username'),
         }
         return render(request, 'client/list-clients.html', context)
 
@@ -39,8 +60,6 @@ class ClientListView(LoginRequiredMixin, View):
             'query': query
         }
         return render(request, 'client/list-clients.html', context)
-
-
 client_list_view = ClientListView.as_view()
 
 
@@ -71,8 +90,6 @@ class ClientDetailView(LoginRequiredMixin, View):
             'tasks_against_orders': tasks_against_orders
         }
         return render(request, 'client/client-detail.html', context)
-
-
 client_detail_view = ClientDetailView.as_view()
 
 
@@ -85,8 +102,6 @@ class ClientDeleteView(LoginRequiredMixin, View):
         client_to_delete = get_object_or_404(Client, id=pk)
         client_to_delete.delete()
         return redirect('client:clients')
-
-
 client_delete_view = ClientDeleteView.as_view()
 
 
@@ -100,17 +115,14 @@ class ClientAddView(LoginRequiredMixin, View):
                       {'form': form, 'func': 'Add'})
 
     def post(self, request):
-        """Save client and redirect to index."""
         form = ClientForm(request.POST)
         if form.is_valid():
             new_client = form.save()
             return redirect('client:measurment_add', client_id=new_client.id)
         else:
+            print("Form is not valid:", form.errors)  # Debug print
             return render(request, 'client/add-client.html', {'form': form, 'func': 'Add'})
-
-
 client_add_view = ClientAddView.as_view()
-
 
 class ClientUpdateView(LoginRequiredMixin, View):
     """Class based view for displaying client detail."""
@@ -125,7 +137,7 @@ class ClientUpdateView(LoginRequiredMixin, View):
                        'client': client})
 
     def post(self, request, pk):
-        """Update client by id ."""
+        """Update client by id."""
         client = get_object_or_404(Client, id=pk)
         measurements_exist = False
         if client.gender == 'M':
@@ -141,6 +153,5 @@ class ClientUpdateView(LoginRequiredMixin, View):
                 return redirect('client:measurment_add', client_id=client.id)
         else:
             return render(request, 'client/add-client.html', {'form': form, 'client': client})
-
-
 client_update_view = ClientUpdateView.as_view()
+

@@ -1,12 +1,16 @@
 """Models for client application."""
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Client(models.Model):
     """Client model."""
-
-    name = models.CharField(max_length=50)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
+    username = models.CharField(max_length=50)
     age = models.PositiveIntegerField(default=18)
     gender = models.CharField(
         max_length=2,
@@ -17,7 +21,7 @@ class Client(models.Model):
     phone_number = models.CharField(max_length=15, unique=True)
     email = models.EmailField(max_length=50, unique=True)
     creation_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-
+    
     def __str__(self):
         """Convert object to String."""
         return 'name({})_email({})_phone({})'.format(
@@ -28,7 +32,16 @@ class Client(models.Model):
 
     objects = models.Manager()
 
-
+# if send message 
+# @receiver(post_save, sender=Client)
+# def create_user_for_client(sender, instance, created, **kwargs):
+#     if created:
+#         # Create a new User instance
+#         User.objects.create_user(
+#             username=instance.username,
+#             email=instance.email,
+#             password=instance.password  # Ensure you use the password hash here
+#         )
 class MaleMeasurements(models.Model):
     """Male Measurements model."""
 

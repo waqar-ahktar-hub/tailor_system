@@ -1,0 +1,35 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Chat Room: {{ room_name }}</h1>
+    
+    <div class="card mx-auto" style="max-width: 800px;">
+        <div class="card-header bg-primary text-white">
+            Chat with {{ receiver.username }}
+        </div>
+        <div class="card-body d-flex flex-column">
+            <!-- Chat log -->
+            <div id="chat-log" class="flex-grow-1 mb-3" style="height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 15px; background-color: #f9f9f9;">
+                {% for message in messages %}
+                    <div class="mb-2">
+                        <strong>{{ message.sender.username }}:</strong>
+                        <p class="mb-0">{{ message.message }}</p>
+                        <small class="text-muted">{{ message.timestamp|date:"d M Y H:i" }}</small>
+                    </div>
+                {% empty %}
+                    <div class="text-center text-muted">No messages yet.</div>
+                {% endfor %}
+            </div>
+            <!-- Message form -->
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <textarea name="message" class="form-control" rows="3" placeholder="Type your message here..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

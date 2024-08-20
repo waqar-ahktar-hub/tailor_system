@@ -16,7 +16,20 @@ from client.models import Client
 from order.models import Order, Task
 from product.models import Product, ProductImages
 
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 
+class SuperAdminRequiredMixin(UserPassesTestMixin):
+    """Mixin to ensure the user is a super admin."""
+
+    def test_func(self):
+        """Check if the user is a super admin."""
+        return self.request.user.is_superuser
+
+    def handle_no_permission(self):
+        """Handle when user doesn't have permission."""
+        raise PermissionDenied("You do not have permission to view this page.")
+    
 class DashboardView(LoginRequiredMixin, View):
     """Dashboard class based view."""
 

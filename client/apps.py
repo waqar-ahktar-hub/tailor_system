@@ -7,3 +7,5 @@ class ClientConfig(AppConfig):
     """Config class for client application."""
 
     name = 'client'
+    # def ready(self):
+    #     import client.signals  # noqa

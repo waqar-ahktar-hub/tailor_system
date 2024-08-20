@@ -1,0 +1,22 @@
+<!-- chat/templates/chat/message_dashboard.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message Dashboard</title>
+</head>
+<body>
+    <h1>Message Dashboard</h1>
+    <ul>
+        {% for message in messages %}
+            <li>
+                <strong>{{ message.sender }} to {{ message.receiver }}:</strong>
+                <p>{{ message.message }}</p>
+                <small>{{ message.timestamp }}</small>
+            </li>
+        {% empty %}
+            <li>No messages yet.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

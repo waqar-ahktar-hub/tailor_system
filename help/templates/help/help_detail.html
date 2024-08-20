@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ help_topic.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ help_topic.title }}</h1>
+<p>{{ help_topic.content }}</p>
+<a class="btn btn-primary" href="{% url 'help:help_index' %}">Back to Help Topics</a>
+<hr>
+<h5>Feedback</h5>
+<form method="post" action="{% url 'help:help_feedback' %}">
+    {% csrf_token %}
+    <input type="hidden" name="help_topic_id" value="{{ help_topic.id }}">
+    <div class="form-group">
+        <label for="feedback">Your Feedback:</label>
+        <textarea class="form-control" id="feedback" name="feedback" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Submit Feedback</button>
+</form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                {% comment %} <img src="{{ user.userprofile.profile_picture.url }}" class="card-img-top" alt="Profile Picture"> {% endcomment %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ user.username }}</h5>
+                    <p class="card-text">{{ user.email }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Profile Details</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Bio:</strong></p>
+                    <p>{{ user.userprofile.bio }}</p>
+                    <hr>
+                    <p><strong>Location:</strong></p>
+                    <p>{{ user.userprofile.location }}</p>
+                    {% comment %} <a href="{% url 'accounts:update_profile' %}" class="btn btn-primary mt-3">Update Profile</a> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -98,6 +98,15 @@
                     </ul>
                 </div>
             </li>
+            <!-- Example of how to use the URL template tag -->
+            <li class="kt-menu__item  kt-menu__item--open {% if group == "DASHBOARD" %}kt-menu__item--here{% endif %} kt-menu__item--submenu kt-menu__item--rel kt-menu__item--open"
+                data-ktmenu-submenu-toggle="hover" aria-haspopup="true"><a
+                href="{% url 'help:help_index' %}" class="kt-menu__link"><span
+                        class="kt-menu__link-text">Help For Employee</span><i
+                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
+            </li>
+           
+
         </ul>
     </div>
 </div>

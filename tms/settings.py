@@ -48,8 +48,12 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'crispy_forms',
     'crispy_bootstrap4',
+    'channels',
     'chat',
     'notifications',
+    'help',
+    'ckeditor',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'tms.urls'
@@ -72,7 +77,10 @@ TEMPLATES = [
             'client/templates/client',
             'product/templates/product',
             'employee/templates/employee',
-            'order/templates/order'
+            'order/templates/order',
+            'chat/templates/chat',
+            'help/templates/help',
+            'notifications/templates/notifications'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -88,7 +96,20 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'tms.wsgi.application'
+ASGI_APPLICATION = 'tms.asgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+# settings.py
+
+CORS_ALLOW_ALL_ORIGINS = True  # This is for development only, be cautious in production
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -144,10 +165,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 ALLOWED_HOSTS = ['*']
-BASE_URL = 'http://127.0.0.1:8000'
+# BASE_URL = 'http://127.0.0.1:8000'
+BASE_URL='http://127.0.0.1:8000/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/login/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# AUTH_USER_MODEL = 'client.Client'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -195,3 +218,42 @@ LOGGING = {
         'level': 'DEBUG',
     },
 }
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+
+# Twilio settings
+# TWILIO_ACCOUNT_SID = 'your_account_sid'
+# TWILIO_AUTH_TOKEN = 'your_auth_token'
+# TWILIO_PHONE_NUMBER = 'your_twilio_phone_number'
+import environ
+import os
+from django.core.exceptions import ImproperlyConfigured  # Import ImproperlyConfigured
+
+# Initialize environment variables
+# env = environ.Env()
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # Specify the path to the .env file
+
+# # Access the OpenAI API key
+# OPENAI_API_KEY = env('OPENAI_API_KEY', default=None)
+
+# # Ensure the key is not None
+# if OPENAI_API_KEY is None:
+#     raise ImproperlyConfigured("Set the OPENAI_API_KEY environment variable")
+
+
+# print(f"OpenAI API Key: {OPENAI_API_KEY}")

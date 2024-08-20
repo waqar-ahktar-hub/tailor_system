@@ -11,7 +11,7 @@ from client.views.client_views import (
     client_update_view
 )
 from client.views.measurement_views import measurements_add_view, measurements_update_view
-
+from .views.client_views import client_dashboard
 app_name = 'client'
 
 urlpatterns = [
@@ -22,7 +22,8 @@ urlpatterns = [
     path('clients/update/<int:pk>/', client_update_view, name='client_update'),
     path('clients/measurements/add/<int:client_id>/', measurements_add_view, name='measurment_add'),
     path('clients/measurements/update/<int:client_id>/', measurements_update_view, name='measurment_update'),
-
+    path('dashboard/', client_dashboard, name='client_dashboard'),
+    # path('create-client/', ClientCreateView.as_view(), name='create_client'),
     # API END POINTS
     path('clients/api/', client_view, name='clients_api'),
     path('clients/api/detail/<int:pk>/', client_detail_view_api, name='client_detail_api'),

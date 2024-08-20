@@ -19,8 +19,6 @@ class ProductListView(LoginRequiredMixin, View):
             'products': products,
         }
         return render(request, 'product/list-products.html', context)
-
-
 product_list_view = ProductListView.as_view()
 
 
@@ -43,8 +41,6 @@ class ProductDetailView(LoginRequiredMixin, View):
             'product_images_dict': product_images_dict
         }
         return render(request, 'product/product-detail.html', context)
-
-
 product_detail_view = ProductDetailView.as_view()
 
 
@@ -56,8 +52,6 @@ class ProductDeleteView(LoginRequiredMixin, View):
         id = request.POST.get('id')
         get_object_or_404(Product, id=id).delete()
         return redirect('product:products')
-
-
 product_delete_view = ProductDeleteView.as_view()
 
 
@@ -78,8 +72,6 @@ class ProductAddView(LoginRequiredMixin, View):
             return redirect('product:product_images_add', product_id=new_product.id)
         else:
             return render(request, 'product/add-product.html', {'form': form, 'func': 'Add'})
-
-
 product_add_view = ProductAddView.as_view()
 
 
@@ -106,6 +98,4 @@ class ProductUpdateView(LoginRequiredMixin, View):
                 return redirect('product:product_images_add', product_id=new_product.id)
         else:
             return render(request, 'product/add-product.html', {'form': form, 'func': 'Update', 'product': product})
-
-
 product_update_view = ProductUpdateView.as_view()

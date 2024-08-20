@@ -130,115 +130,74 @@
                                         class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold kt-hidden">S</span>
                                 </div>
                                 <div class="kt-user-card__name">
-                                    Sean Stone
+                                    {{ user.username }}
                                 </div>
-                                <div class="kt-user-card__badge">
-                                    <span class="btn btn-label-primary btn-sm btn-bold btn-font-md">23
-                                        messages</span>
-                                </div>
+                                 <div class="kt-user-card__badge ">
+                                    <span class="btn btn-label-primary btn-sm btn-bold btn-font-md ">You have {{ unread_messages_count }}
+                                        unread messages</span>
+                                </div> 
+                                {% comment %} <div class="alert alert-info">
+                                    <strong>Notification:</strong> You have {{ unread_messages_count }} unread messages.
+                                </div>  {% endcomment %}
                             </div>
     
                             <!--end: Head -->
     
                             <!--begin: Navigation -->
-                            <div class="kt-notifications">
-                                <a href="{% url 'client:clients' %}"
-                                    class="kt-notification__item">
-                                    <div class="kt-notification__item-icon">
-                                        <i class="flaticon2-calendar-3 kt-font-success"></i>
-                                    </div>
-                                    <div class="kt-notification__item-details">
-                                        <div class="kt-notification__item-title kt-font-bold">
-                                            My Profile
-                                        </div>
-                                        <div class="kt-notification__item-time">
-                                            Account settings and more
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="custom/apps/user/profile-3.html" class="kt-notification__item">
-                                    <div class="kt-notification__item-icon">
-                                        <i class="flaticon2-mail kt-font-warning"></i>
-                                    </div>
-                                    <div class="kt-notification__item-details">
-                                        <div class="kt-notification__item-title kt-font-bold">
-                                            My Messages
-                                        </div>
-                                        <div class="kt-notification__item-time">
-                                            Inbox and tasks
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="custom/apps/user/profile-2.html" class="kt-notification__item">
-                                    <div class="kt-notification__item-icon">
-                                        <i class="flaticon2-rocket-1 kt-font-danger"></i>
-                                    </div>
-                                    <div class="kt-notification__item-details">
-                                        <div class="kt-notification__item-title kt-font-bold">
-                                            My Activities
-                                        </div>
-                                        <div class="kt-notification__item-time">
-                                            Logs and notifications
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="{% url 'order:tasks' %}" class="kt-notification__item">
-                                    <div class="kt-notification__item-icon">
-                                        <i class="flaticon2-hourglass kt-font-brand"></i>
-                                    </div>
-                                    <div class="kt-notification__item-details">
-                                        <div class="kt-notification__item-title kt-font-bold">
-                                            My Tasks
-                                        </div>
-                                        <div class="kt-notification__item-time">
-                                            latest tasks and projects
-                                        </div>
-                                    </div>
-                                </a>
-                                
-                            <!-- In your notification dropdown template -->
-
-                           
-
-                            <a href="{% url 'order:pending_orders' %}" class="kt-notification__item">
-                                <div class="kt-notification__item-icon">
-                                    <i class="flaticon2-cardiogram kt-font-warning"></i>
+                          <!--begin: Navigation -->
+                        <div class="list-group">
+                            {% comment %} <a href="{% url 'profile' %}" class="list-group-item list-group-item-action d-flex align-items-center"> {% endcomment %}
+                                <a href="{% url 'accounts:profile' %}" class="list-group-item list-group-item-action d-flex align-items-center"> 
+                                <div class="me-3">
+                                    <i class="bi bi-calendar3 text-success"></i> <!-- Bootstrap Icon for calendar -->
                                 </div>
-                                <div class="kt-notification__item-details">
-                                    <div class="kt-notification__item-title kt-font-bold">
-                                        Check Billing Payment
-                                    </div>
-                                    <div class="kt-notification__item-time">
-                                        billing & statements {{ pending_count }}
-                                        {% comment %} <span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">
-                                            {{ pending_count }} pending
-                                        </span> {% endcomment %}
-                                    </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">My Profile</h6>
+                                    <small>Account settings and more</small>
                                 </div>
                             </a>
-
-
-
-
-                                 {% comment %} <a href="{% url 'order:pending_orders' %}" class="kt-notification__item">
-                                    <div class="kt-notification__item-icon">
-                                        <i class="flaticon2-cardiogram kt-font-warning"></i>
-                                    </div>
-                                    <div class="kt-notification__item-details">
-                                        <div class="kt-notification__item-title kt-font-bold">
-                                            Billing
-                                        </div>
-                                        <div class="kt-notification__item-time">
-                                            billing & statements <span
-                                                class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">2
-                                                pending</span>
-                                        </div>
-                                    </div>
-                                </a>  {% endcomment %}
-                                <div class="kt-notification__custom kt-space-between">
-                                    <a href="{% url 'logout' %}" class="btn btn-label btn-label-brand btn-sm btn-bold">Sign Out</a>
+                            <a href="{% url 'chat:superuser_dashboard' %}" class="list-group-item list-group-item-action d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="bi bi-envelope-fill text-warning"></i> <!-- Bootstrap Icon for mail -->
                                 </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">My Messages</h6>
+                                    <small>Inbox and tasks</small>
+                                </div>
+                            </a>
+                            {% comment %} <a href="{% url '' %}" class="list-group-item list-group-item-action d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="bi bi-rocket text-danger"></i> <!-- Bootstrap Icon for rocket -->
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">My Activities</h6>
+                                    <small>Logs and notifications</small>
+                                </div>
+                            </a> {% endcomment %}
+                            <a href="{% url 'order:tasks' %}" class="list-group-item list-group-item-action d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="bi bi-hourglass-split text-primary"></i> <!-- Bootstrap Icon for hourglass -->
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">My Tasks</h6>
+                                    <small>Latest tasks and projects</small>
+                                </div>
+                            </a>
+                            <a href="{% url 'order:pending_orders' %}" class="list-group-item list-group-item-action d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="bi bi-heart-pulse text-warning"></i> <!-- Bootstrap Icon for cardiogram -->
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">Check Billing Payment</h6>
+                                    <small>Billing & statements {{ pending_count }}</small>
+                                    {% comment %}<span class="badge bg-danger rounded-pill">{{ pending_count }} pending</span>{% endcomment %}
+                                </div>
+                            </a>
+                            <div class="d-flex justify-content-between p-3">
+                                <a href="{% url 'logout' %}" class="btn btn-outline-primary btn-sm fw-bold">Sign Out</a>
                             </div>
+                        </div>
+
     
                             <!--end: Navigation -->
                         </div>
@@ -246,5 +205,5 @@
     
                     <!--end: User bar -->
         </div>
-    
+   
         <!-- end:: Header Topbar -->

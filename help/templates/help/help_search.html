@@ -1,0 +1,25 @@
+<!-- /home/waqar/PycharmProjects/tms/help/templates/help/help_search.html -->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% block content %}
+<h1>Search Results</h1>
+
+<form method="get" action="{% url 'help:help_search' %}">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search help topics...">
+    <button type="submit">Search</button>
+</form>
+
+{% if search_results %}
+    <ul>
+        {% for result in search_results %}
+            <li><a href="{% url 'help:help_detail' result.pk %}">{{ result.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No results found.</p>
+{% endif %}
+
+{% endblock %}

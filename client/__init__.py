@@ -23,3 +23,4 @@ The CRUD functionality provided can be used via:
 5. Update Client by id
     PUT http://host:port/client/clients/<id>/
 """
+# default_app_config = 'client.apps.ClientConfig'

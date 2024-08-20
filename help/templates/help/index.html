@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Help Documentation</h1>
+<ul>
+    {% for category in categories %}
+        <li><a href="{% url 'help:category_detail' category.slug %}">{{ category.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

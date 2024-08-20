@@ -1,0 +1,101 @@
+<!-- templates/chat/dashboard.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Dashboard</title>
+    <style>
+        #chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        #message-list {
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        #message-list div {
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .message-sent {
+            background-color: #dcf8c6;
+            text-align: right;
+        }
+
+        .message-received {
+            background-color: #ebebeb;
+        }
+
+        #message-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        #send-message {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        #send-message:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="message-list">
+            <!-- Messages will be dynamically loaded here -->
+        </div>
+        <textarea id="message-input" placeholder="Type your message"></textarea>
+        <button id="send-message">Send</button>
+    </div>
+
+    <script>
+        const conversationId = '{{ conversation.id }}'; // Pass this from your Django context
+        const chatSocket = new WebSocket(
+            `ws://${window.location.host}/ws/chat/${conversationId}/`
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const messageList = document.querySelector('#message-list');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `${data.sender}: ${data.message}`;
+            messageElement.className = data.sender === '{{ user.username }}' ? 'message-sent' : 'message-received';
+            messageList.appendChild(messageElement);
+            messageList.scrollTop = messageList.scrollHeight; // Scroll to bottom
+        };
+
+        document.querySelector('#send-message').onclick = function(e) {
+            const messageInput = document.querySelector('#message-input');
+            const message = messageInput.value;
+
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'sender': '{{ user.username }}'
+            }));
+
+            messageInput.value = '';
+        };
+    </script>
+</body>
+</html>

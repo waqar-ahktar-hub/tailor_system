@@ -24,9 +24,10 @@ urlpatterns = [
     path('', include('order.urls')),
     path('', include('employee.urls')),
     path('', include('product.urls')),
-    path('', include('chat.urls')),
+    path('chat/', include('chat.urls')),
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
-    # path('notifications/', header_notifications, name='header_notifications'),
     path('', include('notifications.urls')),
+    path('help/', include('help.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),  # Provides login, logout, etc.
 ]

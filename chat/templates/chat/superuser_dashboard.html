@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load get_status %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Superuser Chat Dashboard</h1>
+
+    <div id="notification" class="alert alert-info">
+        <strong>Notification:</strong> You have {{ unread_messages_count }} unread messages.
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Client List -->
+            <div class="list-group">
+                <h4 class="list-group-item-heading">Clients</h4>
+                {% for client, messages in messages_by_client.items %}
+                    <a href="#collapse{{ client.id }}" class="list-group-item list-group-item-action" data-toggle="collapse" aria-expanded="false">
+                        {{ client.username }} 
+                        {% comment %} <span class="badge badge-primary float-right">{{ messages|length }}</span> {% endcomment %}
+                    </a>
+                {% empty %}
+                    <a class="list-group-item">No clients available</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <!-- Conversation -->
+            <div id="client-messages">
+                {% for client, messages in messages_by_client.items %}
+                    <div id="collapse{{ client.id }}" class="collapse {% if client.id == default_client_id %}show{% endif %}" aria-labelledby="heading{{ client.id }}" data-parent="#client-messages">
+                        <div class="card">
+                            <div class="card-header">
+                                Chat with {{ client.username }}
+                            </div>
+                            <div class="card-body">
+                                <div id="message-log-{{ client.id }}" class="mb-3" style="height: 300px; overflow-y: scroll;">
+                                    {% for message in messages %}
+                                        <div class="message {% if message.sender == request.user %}message-sent{% else %}message-received{% endif %}">
+                                            <strong>{{ message.sender.username }}:</strong> {{ message.message }}
+                                        </div>
+                                    {% empty %}
+                                        <div>No messages yet.</div>
+                                    {% endfor %}
+                                </div>
+                                <form method="post" action="{% url 'chat:send_reply' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="client_id" value="{{ client.id }}">
+                                    <div class="form-group">
+                                        <label for="message-{{ client.id }}">Reply Message:</label>
+                                        <textarea id="message-{{ client.id }}" name="message" class="form-control" rows="3" placeholder="Type your message here..." required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Send Reply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional: Add custom CSS -->
+<style>
+    .message-received {
+        background-color: #f1f1f1;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+    .message-sent {
+        background-color: #d1e7dd;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        text-align: right;
+    }
+</style>
+
+<!-- Optional: Add custom JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-scroll to the bottom of the message log
+        document.querySelectorAll('.message-log').forEach(log => {
+            log.scrollTop = log.scrollHeight;
+        });
+
+        // Hide notification when a conversation is opened
+        document.querySelectorAll('.list-group-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.getElementById('notification').style.display = 'none';
+            });
+        });
+    });
+</script>
+{% endblock %}

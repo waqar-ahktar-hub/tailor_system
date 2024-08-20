@@ -1,0 +1,128 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <!-- Main Content Area -->
+    <div class="col-md-12">
+      <!-- Orders Section -->
+      <div class="mb-4">
+        <h2 class="mb-4">Your Orders</h2>
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead class="thead-light">
+              <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Status</th>
+                <th>Payment Status</th>
+                <th>Payment Amount</th>
+                <th>Advance Payment</th>
+                <th>Delivery Date</th>
+                <th>Date Received</th>
+                <th>Order Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+                <tr>
+                  <td>{{ order.id }}</td>
+                  <td>{{ order.product }}</td>
+                  <td>{{ order.get_status_display }}</td>
+                  <td>{{ order.payment_status|yesno:"Paid,Pending" }}</td>
+                  <td>${{ order.payment_amount|floatformat:2 }}</td>
+                  <td>${{ order.advance_payment_amount|floatformat:2 }}</td>
+                  <td>{{ order.delivery_date }}</td>
+                  <td>{{ order.date_recieved }}</td>
+                  <td>{{ order.order }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="9" class="text-center">No orders found.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tasks Section -->
+      <div>
+        <h2 class="mb-4">Your Tasks</h2>
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead class="thead-light">
+              <tr>
+                <th>Task ID</th>
+                <th>Order ID</th>
+                <th>Employee</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Deadline</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for task in tasks %}
+                <tr>
+                  <td>{{ task.id }}</td>
+                  <td>{{ task.order.id }}</td>
+                  <td>{{ task.employee }}</td>
+                  <td>{{ task.description }}</td>
+                  <td>{{ task.get_status_display }}</td>
+                  <td>{{ task.deadline }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6" class="text-center">No tasks found.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Include JavaScript for WebSocket (for chat functionality) -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const roomName = "{{ room_name }}";  // Ensure room_name is correctly provided
+
+      if (roomName) {
+          const chatSocket = new WebSocket(
+              `ws://${window.location.host}/ws/chat/${roomName}/`
+          );
+
+          chatSocket.onmessage = function(e) {
+              const data = JSON.parse(e.data);
+              const chatLog = document.querySelector('#chat-log');
+              chatLog.innerHTML += `<div class="chat-message">${data.message}</div>`;
+              chatLog.scrollTop = chatLog.scrollHeight;
+          };
+
+          chatSocket.onclose = function(e) {
+              console.error('Chat socket closed unexpectedly');
+          };
+
+          document.querySelector('#chat-message-submit').onclick = function(e) {
+              const messageInputDom = document.querySelector('#chat-message-input');
+              const message = messageInputDom.value;
+              if (message.trim() !== '') {
+                  chatSocket.send(JSON.stringify({
+                      'message': message
+                  }));
+                  messageInputDom.value = '';
+              }
+          };
+
+          document.querySelector('#chat-message-input').onkeyup = function(e) {
+              if (e.keyCode === 13) {
+                  e.preventDefault();
+                  document.querySelector('#chat-message-submit').click();
+              }
+          };
+      }
+  });
+</script>
+{% endblock %}

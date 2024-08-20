@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+
+{% block title %}Help Topics{% endblock %}
+
+{% block content %}
+<h1>Help Topics</h1>
+<form class="form-inline my-2 my-lg-0" method="get" action="{% url 'help:help_search' %}">
+    <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search help topics..." aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+<ul class="list-group mt-4">
+    {% for topic in help_topics %}
+    <li class="list-group-item">
+        <a href="{% url 'help:help_detail' topic.pk %}">{{ topic.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
